@@ -20,6 +20,39 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$this->load->library('GoogleAuthenticator');
+		$gaobj = new GoogleAuthenticator();
+		$secret = "QFDK6TURKQMBAD2L";//$gaobj->createSecret();
+		$token = $gaobj->getCode($secret);
+
+		// echo($secret);
+		// echo "<br>";
+		// echo( $token);
+
+		if(isset($_POST['MFA'])){
+
+			$oneCode = $_POST['MFA'];
+			$checkResult = $gaobj->verifyCode($secret, $oneCode, 2); // 2 = 2*30sec clock tolerance
+			if (!$checkResult)
+			{
+				
+				echo('Two-factor token Failed'); // index function load login page view
+				
+			}
+			else
+			{    
+				// Two-factor code success and now steps for username and password verification
+			} 
+		}else{
+			$qrMFA = $gaobj->getQRCodeGoogleUrl("Duong",$secret,"Tieu de");
+			$data['subview'] = "index";
+			$data['data'] =[
+				'title'=>'Genarator Password',
+				'qrMFA'=>$qrMFA,
+			];
+			$this->load->view("layout",$data);
+			//echo "<img src='$img' />";
+		}
+
 	}
 }

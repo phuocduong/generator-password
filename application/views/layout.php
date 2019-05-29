@@ -22,7 +22,7 @@
 	<title>GENARATOR PASSWORD -
 		<?=$data['title']?>
 	</title>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/dist/app/app.css">
 	<style>
 		html,
 		body {
